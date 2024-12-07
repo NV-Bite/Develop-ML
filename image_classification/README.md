@@ -1,26 +1,26 @@
-Here is a beginner-friendly version of your README:
-
----
-
 # **Notes on Building a Machine Learning Project**
 
 This document explains the steps and insights involved in building a machine learning project. It includes details from preparing the dataset to training and testing the model.
-
----
 
 ## **Dataset**
 
 The dataset can be found here:  
 [Dataset Link](https://www.kaggle.com/datasets/rizkyyk/dataset-food-classification/data)
 
----
+## **Organizing the Dataset**  
 
-## **Splitting the Dataset**
+The dataset is organized by renaming and formatting image files in their folders. The process includes:  
+1. Renaming files to match their folder names and adding numbers (e.g., `cat_001.jpg`).  
+2. Converting unsupported image formats to `.jpg`.  
+3. Removing original files after renaming.  
 
-The dataset is divided into three folders: `train`, `test`, and `valid`.  
-The code for this process is in: [`organize_image.ipynb`](../scripts/data_splitting.ipynb)
+The code used for this process is in: [`organize_image.py`](https://github.com/NV-Bite/Develop-ML/blob/main/image_classification/organize_image.py)   
 
----
+## Split Dataset
+
+available at [`data_splitting.ipynb`](../scripts/data_splitting.ipynb)
+
+the output is 3 folders = `train, test, and valid`
 
 ## **Dataset Preparation**
 
