@@ -1,5 +1,3 @@
-Here is a beginner-friendly version of your README:
-
 # **Notes on Building a Machine Learning Project**
 
 This document explains the steps and insights involved in building a machine learning project. It includes details from preparing the dataset to training and testing the model.
