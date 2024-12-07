@@ -18,9 +18,11 @@ The code used for this process is in: [`organize_image.py`](https://github.com/N
 
 ## Split Dataset
 
-available at [`data_splitting.ipynb`](../scripts/data_splitting.ipynb)
+available at [`data_splitting.ipynb`](https://github.com/NV-Bite/Develop-ML/blob/main/image_classification/split_dataset.ipynb)
 
 the output is 3 folders = `train, test, and valid`
+
+---
 
 ## **Dataset Preparation**
 
