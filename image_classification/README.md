@@ -18,7 +18,7 @@ The dataset can be found here:
 ## **Splitting the Dataset**
 
 The dataset is divided into three folders: `train`, `test`, and `valid`.  
-The code for this process is in: [`data_splitting.ipynb`](../scripts/data_splitting.ipynb)
+The code for this process is in: [`organize_image.ipynb`](../scripts/data_splitting.ipynb)
 
 ---
 
