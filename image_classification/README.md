@@ -32,7 +32,37 @@ This function loads an image from the given path and preprocesses it by resizing
 
 ```python
 def load_image(image_path: str) -> tf.Tensor:
-    # Loads and preprocesses an image
+    """
+    Loads and preprocesses an image from the specified path.
+
+    Parameters:
+    - image_path (str): The file path to the image.
+
+    Returns:
+    - tf.Tensor: The processed image as a TensorFlow tensor.
+    """
+    # Ensure the image path exists
+    assert os.path.exists(image_path), f'Image path does not exist: {image_path}'
+    
+    # Read the image file
+    image = tf.io.read_file(image_path)
+    
+    # Decode the image as JPEG or PNG
+    try:
+        image = tfi.decode_jpeg(image, channels=3)
+    except:
+        image = tfi.decode_png(image, channels=3)
+    
+    # Normalize pixel values to the range [0, 1]
+    image = tfi.convert_image_dtype(image, tf.float32)
+    
+    # Resize the image to the desired dimensions
+    image = tfi.resize(image, (IMAGE_SIZE, IMAGE_SIZE))
+    
+    # Ensure the image tensor has the correct data type
+    image = tf.cast(image, tf.float32)
+    
+    return image
 ```
 
 ### **Loading the Dataset**
@@ -41,7 +71,43 @@ This function loads images and their labels into arrays for training, testing, o
 
 ```python
 def load_dataset(root_path: str, class_names: list, trim: int=None) -> Tuple[np.ndarray, np.ndarray]:
-    # Loads all images and labels from the given path
+    if trim:
+        # Trim the size of the data
+        n_samples = len(class_names) * trim
+    else:
+        # Collect total number of data samples
+        n_samples = sum([len(os.listdir(os.path.join(root_path, name))) for name in class_names])
+
+    # Create arrays to store images and labels
+    images = np.empty(shape=(n_samples, IMAGE_SIZE, IMAGE_SIZE, 3), dtype=np.float32)
+    labels = np.empty(shape=(n_samples, 1), dtype=np.int32)
+
+    # Loop over all the image file paths, load and store the images with respective labels
+    n_image = 0
+    for class_name in tqdm(class_names, desc="Loading"):
+        class_path = os.path.join(root_path, class_name)
+        image_paths = list(glob(os.path.join(class_path, "*")))[:trim]
+        for file_path in image_paths:
+            # Load the image
+            image = load_image(file_path)
+
+            # Assign label
+            label = class_names.index(class_name)
+
+            # Store the image and the respective label
+            images[n_image] = image
+            labels[n_image] = label
+
+            # Increment the number of images processed
+            n_image += 1
+
+    # Shuffle the data
+    indices = np.random.permutation(n_samples)
+    images = images[indices]
+    labels = labels[indices]
+
+
+    return images, labels
 ```
 
 ### **Using the Functions**
@@ -62,8 +128,8 @@ We test the trained model using the test dataset to check its performance:
 
 ```python
 test_loss, test_acc = xception.evaluate(X_test, y_test)
-print(f"Loss    : {test_loss:.4}")
-print(f"Accuracy: {test_acc*100:.4}%")
+print("Loss    : {:.4}".format(test_loss))
+print("Accuracy: {:.4}%".format(test_acc*100))
 ```
 
 ---
@@ -76,7 +142,39 @@ The model is built using this function, which includes options for changing the 
 
 ```python
 def build_model(hp, n_classes=13):
-    # Builds a model with tunable hyperparameters
+    # Define all hyperparameters
+    n_layers = hp.Choice('n_layers', [0, 2, 4])
+    dropout_rate = hp.Choice('rate', [0.2, 0.4, 0.5, 0.7])
+    n_units = hp.Choice('units', [64, 128, 256, 512])
+
+    # Xception model with ImageNet weights, without the top classification layer
+    xception_model = Xception(weights='imagenet', include_top=False, input_shape=(224, 224, 3))
+
+    # Model architecture
+    model = Sequential([
+        xception_model,  # Now it's an instantiated model
+        GlobalAveragePooling2D(),
+    ])
+
+    # Add hidden/top layers
+    for _ in range(n_layers):
+        model.add(Dense(n_units, activation='relu', kernel_initializer='he_normal'))
+
+    # Add Dropout Layer
+    model.add(Dropout(dropout_rate))
+
+    # Output Layer
+    model.add(Dense(n_classes, activation='softmax'))
+
+    # Compile the model
+    model.compile(
+        loss='sparse_categorical_crossentropy',
+        optimizer=Adam(learning_rate=0.001),  # Define the learning rate
+        metrics=['accuracy']
+    )
+
+    # Return the model
+    return model
 ```
 
 ### **Random Search for the Best Settings**
@@ -136,5 +234,3 @@ best_xception.summary()
 ```
 
 ---
-
-This README is a simple guide to help you understand the workflow of a machine learning project, from dataset preparation to model training and testing.
