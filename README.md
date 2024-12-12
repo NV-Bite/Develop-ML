@@ -15,8 +15,8 @@ To accomplish these tasks, we employ transfer learning to adapt pre-trained mode
 
 ## Final Model
 
-- [Image Classification Model](task_comp-vis/e-waste_xception_v1.ipynb)
-- [Text Generation Model](task_nlp/vertex_gemini_v1.5_flash.ipynb)
+- [Image Classification Model](https://github.com/NV-Bite/Develop-ML/blob/main/image_classification/Xception/classification-food-with-xception.ipynb)
+- [Text Generation Model](https://github.com/NV-Bite/Develop-ML/blob/main/text_generation/prompting.py)
 
 ## Preview
 
