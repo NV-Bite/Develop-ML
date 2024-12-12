@@ -144,7 +144,7 @@ X_test, y_test = load_dataset(root_path=test_dir, class_names=class_names)
 
 ## **Model Architecture**
 - Utilizes the Xception pre-trained model as the base.
-- Adds custom layers including `GlobalAveragePooling2D`, `Dropout`, and `Dense` for fine-tuning.\
+- Adds custom layers including `GlobalAveragePooling2D`, `Dropout`, and `Dense` for fine-tuning.
 #### Code:
 ```python
 from tensorflow.keras import Sequential
@@ -202,7 +202,7 @@ history = model.fit(
 )
 ```
 
-### **Results**
+## Results
 - Displays training and validation accuracy and loss over epochs.
 - Visualizes performance metrics using confusion matrices and classification reports.
 ## Dataset Structure
