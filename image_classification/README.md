@@ -1,54 +1,70 @@
-# **Notes on Building a Machine Learning Project**
-
-This document explains the steps and insights involved in building a machine learning project. It includes details from preparing the dataset to training and testing the model.
-## Installation
-Ensure you have the following dependencies installed:
-
-- Python 3.8+
-- TensorFlow 2.9+
-- Pandas
-- NumPy
-- Seaborn
-- Matplotlib
-- tqdm
-
-Install dependencies via pip:
-```bash
-pip install tensorflow pandas numpy seaborn matplotlib tqdm
-```
-## **Setup and Imports**
-- **Environment Cleanup**: Removes temporary files to ensure a clean slate for training.
-- **Library Imports**: Loads necessary libraries for data manipulation, visualization, and model building.
-
-
-## **Dataset**
-
-The dataset can be found here:  
-[Dataset Link](https://www.kaggle.com/datasets/rizkyyk/dataset-food-classification/data)
-
-  
-## **Organizing the Dataset**  
-
-The dataset is organized by renaming and formatting image files in their folders. The process includes:  
-1. Renaming files to match their folder names and adding numbers (e.g., `cat_001.jpg`).  
-2. Converting unsupported image formats to `.jpg`.  
-3. Removing original files after renaming.  
-
-The code used for this process is in: [`organize_image.py`](https://github.com/NV-Bite/Develop-ML/blob/main/image_classification/organize_image.py)   
-
-## Split Dataset
-
-available at [`data_splitting.ipynb`](https://github.com/NV-Bite/Develop-ML/blob/main/image_classification/split_dataset.ipynb)
-
-the output is 3 folders = `train, test, and valid`
+Here’s an improved version of your README, making it more comprehensive and organized. It also includes the addition of scraping using the Bing Image Downloader.
 
 ---
 
-## **Dataset Preparation**
+# **Machine Learning Project Documentation**
+
+This document provides an overview of the steps and methodologies involved in building a machine learning project focused on food classification. The project includes stages from dataset preparation, model training, and evaluation. Additionally, it covers the scraping process using Bing Image Downloader.
+
+---
+
+## **1. Dataset**
+
+The dataset used for this project is available from Kaggle:  
+[Dataset Link](https://www.kaggle.com/datasets/rizkyyk/dataset-food-classification/data)
+
+### **Dataset Organization**
+
+The dataset is organized by renaming and formatting image files into their respective folders. The following steps are taken for organization:
+1. **Renaming Files**: Image filenames are updated to match their respective folder names, including numbers (e.g., `cat_001.jpg`).
+2. **Image Format Conversion**: Unsupported image formats are converted to `.jpg`.
+3. **Removal of Original Files**: The original image files are removed after renaming to prevent duplication.
+
+The code used for this process is located in:  
+[`organize_image.py`](https://github.com/NV-Bite/Develop-ML/blob/main/image_classification/organize_image.py)
+
+---
+
+## **2. Dataset Splitting**
+
+The dataset is split into three sets: `train`, `test`, and `valid`. The splitting process is done in the following notebook:  
+[`data_splitting.ipynb`](https://github.com/NV-Bite/Develop-ML/blob/main/image_classification/split_dataset.ipynb)
+
+The output of this process is three folders containing the appropriate datasets:
+- `train`: Training data
+- `valid`: Validation data
+- `test`: Testing data
+
+---
+
+## **3. Scraping with Bing Image Downloader**
+
+For additional image data, you can use the Bing Image Downloader to scrape images. Below is a basic guide on how to scrape images from Bing using the `bing_image_downloader` library.
+
+### **Installing Bing Image Downloader**
+To install the necessary package:
+```bash
+pip install bing-image-downloader
+```
+
+### **Scraping Images**
+Use the following Python code to download images using the Bing Image Downloader:
+
+```python
+from bing_image_downloader import downloader
+
+# Define search query and number of images to download
+downloader.download("food", limit=100, output_dir='dataset/food', adult_filter_off=True, force_replace=False, timeout=60)
+```
+This will download 100 images of food and save them in the `dataset/food` directory.
+
+---
+
+## **4. Dataset Preparation**
 
 ### **Loading an Image**
 
-This function loads an image from the given path and preprocesses it by resizing and normalizing it.
+This function loads an image, resizes it, and normalizes its pixel values.
 
 ```python
 def load_image(image_path: str) -> tf.Tensor:
@@ -87,7 +103,7 @@ def load_image(image_path: str) -> tf.Tensor:
 
 ### **Loading the Dataset**
 
-This function loads images and their labels into arrays for training, testing, or validation.
+This function loads images and their corresponding labels into arrays for model training, testing, or validation.
 
 ```python
 def load_dataset(root_path: str, class_names: list, trim: int=None) -> Tuple[np.ndarray, np.ndarray]:
@@ -126,13 +142,12 @@ def load_dataset(root_path: str, class_names: list, trim: int=None) -> Tuple[np.
     images = images[indices]
     labels = labels[indices]
 
-
     return images, labels
 ```
 
 ### **Using the Functions**
 
-We use these functions to load the dataset for training, testing, and validation:
+To load the dataset for training, testing, and validation:
 
 ```python
 X_train, y_train = load_dataset(root_path=train_dir, class_names=class_names)
@@ -142,10 +157,11 @@ X_test, y_test = load_dataset(root_path=test_dir, class_names=class_names)
 
 ---
 
-## **Model Architecture**
-- Utilizes the Xception pre-trained model as the base.
-- Adds custom layers including `GlobalAveragePooling2D`, `Dropout`, and `Dense` for fine-tuning.
-#### Code:
+## **5. Model Architecture**
+
+The model uses a pre-trained Xception model as the base and adds custom layers for fine-tuning.
+
+#### Code for Model Architecture:
 ```python
 from tensorflow.keras import Sequential
 from tensorflow.keras.applications import Xception
@@ -173,22 +189,28 @@ model.compile(
 model.summary()
 ```
 
-## **Testing and Evaluation the Model**
+---
 
-We test the trained model using the test dataset to check its performance:
+## **6. Model Testing and Evaluation**
+
+Evaluate the model's performance on the test dataset:
 
 ```python
-test_loss, test_acc = xception.evaluate(X_test, y_test)
+test_loss, test_acc = model.evaluate(X_test, y_test)
 print("Loss    : {:.4}".format(test_loss))
-print("Accuracy: {:.4}%".format(test_acc*100))
+print("Accuracy: {:.4}%".format(test_acc * 100))
 ```
-- **Loss Function**: Categorical Crossentropy.
-- **Optimizer**: Adam optimizer.
-- **Metrics**: Accuracy is used to evaluate the model.
-- **Callbacks**: Includes early stopping and model checkpointing.
-#### Code:
+
+### **Callbacks**
+
+The following callbacks are used during training:
+- **EarlyStopping**: Stops training when validation loss does not improve.
+- **ModelCheckpoint**: Saves the best model based on validation accuracy.
+
+#### Code for Callbacks:
 ```python
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
+
 # Callbacks
 early_stopping = EarlyStopping(monitor='val_loss', patience=5, restore_best_weights=True)
 model_checkpoint = ModelCheckpoint('best_model.h5', save_best_only=True, monitor='val_accuracy')
@@ -202,17 +224,32 @@ history = model.fit(
 )
 ```
 
-## Results
-- Displays training and validation accuracy and loss over epochs.
-- Visualizes performance metrics using confusion matrices and classification reports.
+---
 
-## Usage
+## **7. Results**
+
+- Training and validation accuracy and loss are displayed and visualized.
+- Performance metrics such as confusion matrices and classification reports are generated.
+
+---
+
+## **8. Usage**
+
 1. Clone the repository.
-2. Place your dataset in the required directory structure (`train/`, `val/`, `test/` folders).
-3. Open the notebook and execute cells sequentially.
+2. Prepare your dataset and organize it into `train/`, `valid/`, and `test/` folders.
+3. Open the notebook and execute the cells sequentially.
 4. Save the trained model for deployment or further inference tasks.
-## Acknowledgments
-- TensorFlow and Keras for model development.
-- Kaggle for providing data storage and computation resources.
+
+---
+
+## **9. Acknowledgments**
+
+- **TensorFlow and Keras** for model development.
+- **Kaggle** for providing data storage and computation resources.
+- **Bing Image Downloader** for additional dataset scraping.
 
 Feel free to modify and extend this project as needed.
+
+--- 
+
+This structure ensures that all steps, methods, and tools used in the project are clearly outlined and easy to follow. Let me know if you need further adjustments!
