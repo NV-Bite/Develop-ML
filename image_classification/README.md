@@ -1,12 +1,32 @@
 # **Notes on Building a Machine Learning Project**
 
 This document explains the steps and insights involved in building a machine learning project. It includes details from preparing the dataset to training and testing the model.
+## Installation
+Ensure you have the following dependencies installed:
+
+- Python 3.8+
+- TensorFlow 2.9+
+- Pandas
+- NumPy
+- Seaborn
+- Matplotlib
+- tqdm
+
+Install dependencies via pip:
+```bash
+pip install tensorflow pandas numpy seaborn matplotlib tqdm
+```
+## **Setup and Imports**
+- Environment Cleanup: Removes temporary files to ensure a clean slate for training.
+- **Library Imports**: Loads necessary libraries for data manipulation, visualization, and model building.
+
 
 ## **Dataset**
 
 The dataset can be found here:  
 [Dataset Link](https://www.kaggle.com/datasets/rizkyyk/dataset-food-classification/data)
 
+  
 ## **Organizing the Dataset**  
 
 The dataset is organized by renaming and formatting image files in their folders. The process includes:  
@@ -122,7 +142,38 @@ X_test, y_test = load_dataset(root_path=test_dir, class_names=class_names)
 
 ---
 
-## **Testing the Model**
+## **Model Architecture**
+- Utilizes the Xception pre-trained model as the base.
+- Adds custom layers including `GlobalAveragePooling2D`, `Dropout`, and `Dense` for fine-tuning.\
+#### Code:
+```python
+from tensorflow.keras import Sequential
+from tensorflow.keras.applications import Xception
+from tensorflow.keras.layers import GlobalAveragePooling2D, Dropout, Dense
+
+# Load the pre-trained Xception model
+base_model = Xception(weights='imagenet', include_top=False, input_shape=(224, 224, 3))
+
+# Build the model
+model = Sequential([
+    base_model,
+    GlobalAveragePooling2D(),
+    Dropout(0.5),
+    Dense(128, activation='relu'),
+    Dropout(0.5),
+    Dense(10, activation='softmax')  # Assuming 10 classes
+])
+
+model.compile(
+    optimizer='adam',
+    loss='categorical_crossentropy',
+    metrics=['accuracy']
+)
+
+model.summary()
+```
+
+## **Testing and Evaluation the Model**
 
 We test the trained model using the test dataset to check its performance:
 
@@ -131,3 +182,54 @@ test_loss, test_acc = xception.evaluate(X_test, y_test)
 print("Loss    : {:.4}".format(test_loss))
 print("Accuracy: {:.4}%".format(test_acc*100))
 ```
+- **Loss Function**: Categorical Crossentropy.
+- **Optimizer**: Adam optimizer.
+- **Metrics**: Accuracy is used to evaluate the model.
+- **Callbacks**: Includes early stopping and model checkpointing.
+#### Code:
+```python
+from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
+# Callbacks
+early_stopping = EarlyStopping(monitor='val_loss', patience=5, restore_best_weights=True)
+model_checkpoint = ModelCheckpoint('best_model.h5', save_best_only=True, monitor='val_accuracy')
+
+# Training the model
+history = model.fit(
+    train_generator,
+    validation_data=val_generator,
+    epochs=20,
+    callbacks=[early_stopping, model_checkpoint]
+)
+```
+
+### **Results**
+- Displays training and validation accuracy and loss over epochs.
+- Visualizes performance metrics using confusion matrices and classification reports.
+## Dataset Structure
+Expected directory structure:
+```
+./data/
+  train/
+    Ayam Goreng/
+    Rendang/
+    ...
+  val/
+    Ayam Goreng/
+    Rendang/
+    ...
+  test/
+    Ayam Goreng/
+    Rendang/
+    ...
+```
+
+## Usage
+1. Clone the repository.
+2. Place your dataset in the required directory structure (`train/`, `val/`, `test/` folders).
+3. Open the notebook and execute cells sequentially.
+4. Save the trained model for deployment or further inference tasks.
+## Acknowledgments
+- TensorFlow and Keras for model development.
+- Kaggle for providing data storage and computation resources.
+
+Feel free to modify and extend this project as needed.
