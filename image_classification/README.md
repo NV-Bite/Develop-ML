@@ -1,10 +1,6 @@
-Here’s an improved version of your README, making it more comprehensive and organized. It also includes the addition of scraping using the Bing Image Downloader.
-
----
-
 # **Machine Learning Project Documentation**
 
-This document provides an overview of the steps and methodologies involved in building a machine learning project focused on food classification. The project includes stages from dataset preparation, model training, and evaluation. Additionally, it covers the scraping process using Bing Image Downloader.
+This document provides an overview of the steps and methodologies involved in building a machine learning project focused on food classification. The project includes stages from dataset preparation, model training, and evaluation.
 
 ---
 
@@ -34,29 +30,6 @@ The output of this process is three folders containing the appropriate datasets:
 - `train`: Training data
 - `valid`: Validation data
 - `test`: Testing data
-
----
-
-## **3. Scraping with Bing Image Downloader**
-
-For additional image data, you can use the Bing Image Downloader to scrape images. Below is a basic guide on how to scrape images from Bing using the `bing_image_downloader` library.
-
-### **Installing Bing Image Downloader**
-To install the necessary package:
-```bash
-pip install bing-image-downloader
-```
-
-### **Scraping Images**
-Use the following Python code to download images using the Bing Image Downloader:
-
-```python
-from bing_image_downloader import downloader
-
-# Define search query and number of images to download
-downloader.download("food", limit=100, output_dir='dataset/food', adult_filter_off=True, force_replace=False, timeout=60)
-```
-This will download 100 images of food and save them in the `dataset/food` directory.
 
 ---
 
@@ -246,7 +219,6 @@ history = model.fit(
 
 - **TensorFlow and Keras** for model development.
 - **Kaggle** for providing data storage and computation resources.
-- **Bing Image Downloader** for additional dataset scraping.
 
 Feel free to modify and extend this project as needed.
 
