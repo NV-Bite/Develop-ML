@@ -12,7 +12,7 @@ The dataset used for this project is available from Kaggle:
 ### **Dataset Organization**
 
 The dataset is organized by renaming and formatting image files into their respective folders. The following steps are taken for organization:
-1. **Renaming Files**: Image filenames are updated to match their respective folder names, including numbers (e.g., `cat_001.jpg`).
+1. **Renaming Files**: Image filenames are updated to match their respective folder names, including numbers (e.g., `sate_001.jpg`).
 2. **Image Format Conversion**: Unsupported image formats are converted to `.jpg`.
 3. **Removal of Original Files**: The original image files are removed after renaming to prevent duplication.
 
@@ -221,7 +221,3 @@ history = model.fit(
 - **Kaggle** for providing data storage and computation resources.
 
 Feel free to modify and extend this project as needed.
-
---- 
-
-This structure ensures that all steps, methods, and tools used in the project are clearly outlined and easy to follow. Let me know if you need further adjustments!
