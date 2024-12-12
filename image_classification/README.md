@@ -17,7 +17,7 @@ Install dependencies via pip:
 pip install tensorflow pandas numpy seaborn matplotlib tqdm
 ```
 ## **Setup and Imports**
-- Environment Cleanup: Removes temporary files to ensure a clean slate for training.
+- **Environment Cleanup**: Removes temporary files to ensure a clean slate for training.
 - **Library Imports**: Loads necessary libraries for data manipulation, visualization, and model building.
 
 
