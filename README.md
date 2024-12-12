@@ -36,7 +36,3 @@ Explore our implementation through this [web app](https://ml-preview-6b9daowwxjo
 
 - Vertex AI Gemini 1.5 Flash  
   ![gemini](https://github.com/NV-Bite/Develop-ML/blob/main/util/generative-ai-workflow.png)
-
----
-
-This version aligns with your requirements for both tasks while maintaining a fresh and professional tone.
