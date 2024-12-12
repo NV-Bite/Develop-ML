@@ -22,25 +22,20 @@ To accomplish these tasks, we employ transfer learning to adapt pre-trained mode
 
 Explore our implementation through this [web app](https://ml-preview-6b9daowwxjoa4iqvpagyrp.streamlit.app/)!
 
-## Todos
-
-- [ ] Add support for text classification (optional)
-- [ ] Extend image analysis with an object detection model (optional)
-
 ## Model Architecture
 
 ### Image Classification
 
 - **Base Model**  
-  ![base](docs/img/img-base.png)
+  ![base](https://github.com/NV-Bite/Develop-ML/blob/main/util/architecture%20xception.png)
 
 - **Fine-Tuned Model**  
-  ![fine-tuned](docs/img/img-fine-tuned.png)
+  ![fine-tuned](https://github.com/NV-Bite/Develop-ML/blob/main/util/fine%20tuned.jpg)
 
 ### Text Generation
 
 - Vertex AI Gemini 1.5 Flash  
-  ![gemini](docs/img/gemini.png)
+  ![gemini](https://github.com/NV-Bite/Develop-ML/blob/main/util/generative-ai-workflow.png)
 
 ---
 
