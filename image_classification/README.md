@@ -205,23 +205,6 @@ history = model.fit(
 ## Results
 - Displays training and validation accuracy and loss over epochs.
 - Visualizes performance metrics using confusion matrices and classification reports.
-## Dataset Structure
-Expected directory structure:
-```
-./data/
-  train/
-    Ayam Goreng/
-    Rendang/
-    ...
-  val/
-    Ayam Goreng/
-    Rendang/
-    ...
-  test/
-    Ayam Goreng/
-    Rendang/
-    ...
-```
 
 ## Usage
 1. Clone the repository.
