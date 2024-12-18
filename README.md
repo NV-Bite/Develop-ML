@@ -27,12 +27,12 @@ Explore our implementation through this [web app](https://ml-preview-6b9daowwxjo
 ### Image Classification
 
 - **Base Model**  
-  ![base](https://github.com/NV-Bite/Develop-ML/blob/main/util/architecture%20xception.png)
+  ![base](https://github.com/NV-Bite/.github/blob/main/assets/ml_image/architecture%20xception.png)
 
 - **Fine-Tuned Model**  
-  ![fine-tuned](https://github.com/NV-Bite/Develop-ML/blob/main/util/fine%20tuned.jpg)
+  ![fine-tuned](https://github.com/NV-Bite/.github/blob/main/assets/ml_image/fine%20tuned.jpg)
 
 ### Text Generation
 
 - Vertex AI Gemini 1.5 Flash  
-  ![gemini](https://github.com/NV-Bite/Develop-ML/blob/main/util/generative-ai-workflow.png)
+  ![gemini](https://github.com/NV-Bite/.github/blob/main/assets/ml_image/generative-ai-workflow.png)
